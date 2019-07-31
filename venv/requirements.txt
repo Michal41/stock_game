@@ -1,0 +1,5 @@
+pymongo
+flask
+dnspython
+bs4
+
