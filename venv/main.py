@@ -45,6 +45,12 @@ def create_app():
     balance = f"{balance:.2f}"
     return render_template("stats.html",altogether=altogether,share_value=share_value,balance=balance,stock=stock_list,owned_shares=zip(user.get_stats(),user.get_stats().values(),range(1,1+len(user.get_stats()))))
 
+  @app.route("/ranking", methods=["POST","GET"])
+  def ranking():
+    users_collection=User.users_collection()
+    ranking=users_collection.find({}).sort("balance",-1)
+    return render_template("ranking.html",ranking=zip(ranking,range(1,1+ranking.count())))
+
   @app.route("/login", methods=["POST","GET"])
   def login():
     form = Login_form()
@@ -67,7 +73,7 @@ def create_app():
       users_collection = User.users_collection()
       users_collection.insert_one({"user_name": form.user_name.data,
                                    "password":hashpw(form.password.data.encode("utf-8"), gensalt()),
-                                   "balance": "1000", "e-mail": form.email.data})
+                                   "balance": 1000, "e-mail": form.email.data})
       flash("Rejerstracja przebiegła pomyślnie teraz możesz się zalogować", category="success")
       return redirect(url_for("index"))
     return render_template("register.html", form=form)

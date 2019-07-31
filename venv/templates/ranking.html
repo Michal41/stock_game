@@ -26,6 +26,9 @@
             <li class="nav-item active">
               <a class="nav-link" href="{{url_for("stats")}}">Twoje statystyki<span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{url_for('ranking')}}">Ranking<span class="sr-only">(current)</span></a>
+            </li>
             </ul>
             {% if current_user.is_active %}
             <li class="nav-item active mx-2">
@@ -65,12 +68,10 @@
        <h4 class="card-title"><p class="text-center">Informacje:</p></h4>
        <h5>
           <center>
-            Aplikacja symuluje grę na giełdzie, gracz zaczyna grę z saldem 1000zł może iwestować te pieniądze
-        w akcje poniższysz spółek. Ceny akcji są cenami realnymi i są aktualizowane
-        na bieżąco.
+            Poniżej znajduje się ranking użytkowników tego symulatora
           </center>
       </h5>
-      <h4 class="card-title my-3"><p>Balance</p></h4>
+
 
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
@@ -99,24 +100,21 @@
 
           </tr>
         </thead>
-        for
+        {% for cursor,i  in ranking%}
         <tbody>
           <tr>
-            <th scope="row">i</th>
-            <td>k</td>
-            <td>v</td>
+            <th scope="row">{{i}}</th>
             <td>
-              <form class="form-inline float-right" method="POST" action="/buy/{{k}}">
-                <div class="form-group mx-sm-3 mb-2">
-                  <label for="inputPassword2"</label>
-                  <input type="number" min="1" name="quantity"
-                         class="form-control text-center" id="inputPassword2" placeholder="Podaj ilość">
-                </div>
-                <button type="submit" class="btn btn-success mb-2">Kupuję</button>
-              </form>
+              {% if cursor.get("user_name")==current_user.name %}
+              <span class="text-primary"> {{cursor.get("user_name")}} </span>
+              {% else %}
+              {{cursor.get("user_name")}}
+              {% endif %}
             </td>
+            <td>{{cursor.get("balance")}}</td>
 
-            endfor
+
+            {% endfor %}
           </tr>
 
         </tbody>
