@@ -48,15 +48,11 @@ def create_app():
   @app.route("/ranking", methods=["POST","GET"])
   def ranking():
     users_collection=User.users_collection()
-    rankingg=users_collection.find({}).sort("balance",-1)
     ranking=[]
     for curosur in users_collection.find({}):
       user=User(curosur.get("user_name"))
       ranking.append((user.get_share_value()+curosur.get("balance"),user.name))
-
     ranking=sorted(ranking,reverse=True)
-
-    #return render_template("ranking.html",ranking=zip(rankingg,range(1,1+rankingg.count())))
     return render_template("ranking.html", ranking=zip(ranking,range(1,1+len(ranking))))
 
   @app.route("/login", methods=["POST","GET"])
