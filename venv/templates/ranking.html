@@ -15,16 +15,16 @@
     <div class="card-body">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-       <a class="navbar-brand" href="{{url_for("index")}}"><i class="fab fa-buysellads fa-2x"></i></a>
+       <a class="navbar-brand" href="{{url_for('index')}}"><i class="fab fa-buysellads fa-2x"></i></a>
 
 
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{{url_for("index")}}">Home<span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{{url_for('index')}}">Home<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="{{url_for("stats")}}">Twoje statystyki<span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{{url_for('stats')}}">Twoje statystyki<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
               <a class="nav-link" href="{{url_for('ranking')}}">Ranking<span class="sr-only">(current)</span></a>
@@ -95,23 +95,23 @@
         <thead>
           <tr>
             <th scope="col"><i class="fas fa-angle-double-right"></i></th>
-            <th scope="col">Nazwa spółki</th>
-            <th scope="col">Cena</th>
+            <th scope="col">Nazwa użytkownika</th>
+            <th scope="col">Posiadane srodki + wartość akcji</th>
 
           </tr>
         </thead>
-        {% for cursor,i  in ranking%}
+        {% for couple,i in ranking%}
         <tbody>
           <tr>
             <th scope="row">{{i}}</th>
             <td>
-              {% if cursor.get("user_name")==current_user.name %}
-              <span class="text-primary"> {{cursor.get("user_name")}} </span>
+              {%if couple[1]==current_user.name%}
+                <span class="text-primary"> {{couple[1]}} </span>
               {% else %}
-              {{cursor.get("user_name")}}
+                {{couple[1]}}
               {% endif %}
             </td>
-            <td>{{cursor.get("balance")}}</td>
+            <td>{{couple[0]}}</td>
 
 
             {% endfor %}
