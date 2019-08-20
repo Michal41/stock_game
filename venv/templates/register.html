@@ -1,150 +1,90 @@
-<!doctype html>
-<html lang="pl">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'base.html' %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <title>Rejestracja</title>
-  </head>
-  <body class="p-3 mb-2 bg-dark">
+{% block info %}
 
+<div class="card-body">
+    <h4> Wpisz swoje dane aby się zarejerstrować </h4>
 
-
-    <div class="container">
-        <div class="card my-3 bg-secondary">
-            <div class="card-body">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-       <a class="navbar-brand" href="{{url_for("index")}}"><i class="fab fa-buysellads fa-2x"></i></a>
-
-
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{url_for("index")}}">Home<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{{url_for("stats")}}">Twoje statystyki<span class="sr-only">(current)</span></a>
-            </li>
-              <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('ranking')}}">Ranking<span class="sr-only">(current)</span></a>
-              </li>
-            </ul>
-            {% if current_user.is_active %}
-            <li class="nav-item active mx-2">
-              <a class="text-white" href="{{url_for('logout')}}">Wyloguj</a>
-            </li>
-            {% else %}
-            <li class="nav-item active mx-2">
-              <a class="text-white" href="{{url_for('login')}}">Zaloguj</a>
-            </li>
-
-             <li class="nav-item active mx-2">
-              <a class="text-white" href="{{url_for('register')}}">Rejestracja</a>
-            </li>
-          {%endif%}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category,message in messages %}
+    <h4>
+        <div class="alert alert-{{category}}" role="alert">
+            {{message}}
         </div>
-      </nav>
-        </div>
-        </div>
+    </h4>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+
+{% endblock info%}
 
 
+{% block content%}
+<div class="card-body">
 
-        <div class="card my-3 bg-secondary text-white">
-            <div class="card-body">
-                <h4> Wpisz swoje dane aby się zarejerstrować </h4>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
 
-               {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category,message in messages %}
-                        <h4>
-                        <div class="alert alert-{{category}}" role="alert">
-                            {{message}}
-                        </div>
-                        </h4>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+        <div class="form-group">
+
+            {{ form.email.label(class="form-check-label") }}
+
+            {%if form.email.errors%}
+            {%for error in form.email.errors%}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
             </div>
+            {%endfor%}
+            {%endif%}
+            {{ form.email(class="form-control") }}
         </div>
 
-        <div class="card my-3 bg-secondary text-white">
-            <div class="card-body">
+        <div class="form-group">
 
-                <form method="POST" action="">
-                    {{ form.hidden_tag() }}
+            {{ form.user_name.label(class="form-check-label") }}
 
-                    <div class="form-group">
-
-                        {{ form.email.label(class="form-check-label") }}
-
-                        {%if form.email.errors%}
-                            {%for error in form.email.errors%}
-                                 <div class="alert alert-danger" role="alert">
-                                    {{error}}
-                                 </div>
-                            {%endfor%}
-                        {%endif%}
-                        {{ form.email(class="form-control") }}
-                    </div>
-
-                    <div class="form-group">
-
-                        {{ form.user_name.label(class="form-check-label") }}
-
-                        {%if form.user_name.errors%}
-                            {%for error in form.user_name.errors%}
-                                 <div class="alert alert-danger" role="alert">
-                                    {{error}}
-                                 </div>
-                            {%endfor%}
-                        {%endif%}
-                        {{ form.user_name(class="form-control") }}
-                    </div>
-                     <div class="form-group">
-
-                        {{ form.password.label(class="form-check-label") }}
-                        {%if form.password.errors%}
-                            {%for error in form.password.errors%}
-                                 <div class="alert alert-danger" role="alert">
-                                    {{error}}
-                                 </div>
-                            {%endfor%}
-                         {%endif%}
-
-                        {{ form.password(class="form-control") }}
-                     </div>
-
-                    <div class="form-group">
-
-                        {{ form.confirm_password.label(class="form-check-label") }}
-                        {%if form.confirm_password.errors%}
-                            {%for error in form.confirm_password.errors%}
-                                 <div class="alert alert-danger" role="alert">
-                                    {{error}}
-                                 </div>
-                            {%endfor%}
-                         {%endif%}
-
-                        {{ form.confirm_password(class="form-control") }}
-                     </div>
-
-                    {{ form.submit(class="btn btn-success") }}
-                </form>
+            {%if form.user_name.errors%}
+            {%for error in form.user_name.errors%}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
             </div>
+            {%endfor%}
+            {%endif%}
+            {{ form.user_name(class="form-control") }}
+        </div>
+        <div class="form-group">
+
+            {{ form.password.label(class="form-check-label") }}
+            {%if form.password.errors%}
+            {%for error in form.password.errors%}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+            {%endfor%}
+            {%endif%}
+
+            {{ form.password(class="form-control") }}
         </div>
 
+        <div class="form-group">
 
-    </div>
+            {{ form.confirm_password.label(class="form-check-label") }}
+            {%if form.confirm_password.errors%}
+            {%for error in form.confirm_password.errors%}
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+            </div>
+            {%endfor%}
+            {%endif%}
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
-</html>
+            {{ form.confirm_password(class="form-control") }}
+        </div>
+
+        {{ form.submit(class="btn btn-success") }}
+    </form>
+</div>
+
+{% endblock %}
+

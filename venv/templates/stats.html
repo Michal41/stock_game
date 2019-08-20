@@ -1,56 +1,6 @@
-<!doctype html>
-<html lang="pl">
-<head>
-  <meta charset="utf-8">
-  <title>Twoje statystyki</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-</head>
+{% extends 'base.html' %}
 
-<body>
-
-<div class="p-3 mb-2 bg-dark">
-<div class="container">
-  <div class="card my-3 bg-secondary">
-    <div class="card-body">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-       <a class="navbar-brand" href="{{url_for('index')}}"><i class="fab fa-buysellads fa-2x"></i></a>
-
-
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{url_for("index")}}">Home<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{{url_for("stats")}}">Twoje statystyki<span class="sr-only">(current)</span></a>
-            </li>
-             <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('ranking')}}">Ranking<span class="sr-only">(current)</span></a>
-            </li>
-            </ul>
-            {% if current_user.is_active %}
-            <li class="nav-item active mx-2">
-              <a class="text-white" href="{{url_for('logout')}}">Wyloguj</a>
-            </li>
-            {% else %}
-            <li class="nav-item active mx-2">
-              <a class="text-white" href="{{url_for('login')}}">Zaloguj</a>
-            </li>
-
-             <li class="nav-item active mx-2">
-              <a class="text-white" href="{{url_for('register')}}">Rejestracja</a>
-            </li>
-          {%endif%}
-        </div>
-      </nav>
-
-
-    </div>
-  </div>
-
-  <div class="card my-3 bg-secondary text-white border-0">
+{% block info %}
     <div class="card bg-secondary text-white">
       <div class="card-body m-3">
         <div class="row">
@@ -83,10 +33,12 @@
       {% endif %}
     {% endwith %}
     </div>
-  </div>
+  {% endblock info %}
 
 
-  <div class="card my-3 bg-secondary text-white">
+
+
+  {% block content %}
     <div class="card-body">
       <h5 class="card-title"><p class="text-center"><i class="fas fa-align-justify"></i> Poniżej znajdują się twoje akcje :</p></h5>
       <table class="table table-striped table-dark">
@@ -122,9 +74,4 @@
       </table>
 
     </div>
-  </div>
-
-</div>
-</div>
-</body>
-</html>
+{% endblock content %}

@@ -43,17 +43,17 @@ def create_app():
     share_value = f"{share_value:.2f}"
     altogether = f"{altogether:.2f}"
     balance = f"{balance:.2f}"
-    return render_template("stats.html",altogether=altogether,share_value=share_value,balance=balance,stock=stock_list,owned_shares=zip(user.get_stats(),user.get_stats().values(),range(1,1+len(user.get_stats()))))
+    return render_template("stats.html",title="Twoje Statystyki", altogether=altogether,share_value=share_value,balance=balance,stock=stock_list,owned_shares=zip(user.get_stats(),user.get_stats().values(),range(1,1+len(user.get_stats()))))
 
   @app.route("/ranking", methods=["POST","GET"])
   def ranking():
     users_collection=User.users_collection()
-    ranking=[]
+    ranking = []
     for curosur in users_collection.find({}):
       user=User(curosur.get("user_name"))
       ranking.append((user.get_share_value()+curosur.get("balance"),user.name))
     ranking=sorted(ranking,reverse=True)
-    return render_template("ranking.html", ranking=zip(ranking,range(1,1+len(ranking))))
+    return render_template("ranking.html",title="Ranking", ranking=zip(ranking,range(1,1+len(ranking))))
 
   @app.route("/login", methods=["POST","GET"])
   def login():
@@ -68,7 +68,7 @@ def create_app():
         return redirect(request.args.get("next") or url_for("index"))
       else:
         flash("Wprowadzone dane są nieprawidłowe", category="danger")
-    return render_template("login.html", form=form)
+    return render_template("login.html", title="Login", form=form)
 
   @app.route("/register", methods=["POST", "GET"])
   def register():
@@ -80,7 +80,7 @@ def create_app():
                                    "balance": 1000, "e-mail": form.email.data})
       flash("Rejerstracja przebiegła pomyślnie teraz możesz się zalogować", category="success")
       return redirect(url_for("index"))
-    return render_template("register.html", form=form)
+    return render_template("register.html", title="Rejestracja", form=form)
 
   @app.route("/buy/<company_name>", methods=["POST", "GET"])
   @login_required
