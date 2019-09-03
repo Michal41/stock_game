@@ -15,7 +15,8 @@ This application also ensures competition thanks to the ranking system.
 
 
 ## Status
-Project is: finished
+Project is finished.
 
 
 ## Contact
+michal.kanarek@gmail.com
